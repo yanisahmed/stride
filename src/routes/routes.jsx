@@ -4,6 +4,7 @@ import Error from '../pages/Error';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import PrivateRoutes from './PrivateRoutes';
 const router = createBrowserRouter([
     {
         path: "/",
@@ -15,15 +16,30 @@ const router = createBrowserRouter([
                 element: <Home />
             },
             {
-                path: "/login",
-                element: <Login />
-            },
-            {
-                path: "/register",
-                element: <Register />
+                path: "/about",
+                element: <h1>About</h1>
             }
+
+
         ]
+    },
+    {
+        path: "/login",
+        element: <Login />
+    },
+    {
+        path: "/register",
+        element: <Register />
+    },
+    {
+        path: "/dashboard",
+        element: (
+            <PrivateRoutes>
+                <h3>Dashboard....</h3>
+            </PrivateRoutes>
+        )
     }
+
 ]);
 
 export default router;

@@ -1,8 +1,11 @@
-import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
-import { AuthContext } from '../AuthProvider/AuthProvider'
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 export default function Navbar() {
-    const { user, logout } = useContext(AuthContext)
+    const { user, logout } = useContext(AuthContext);
+    const handleLogout = async () => {
+        await logout();
+    }
     return (
         <div className="flex justify-center bg-[#4E9F3D]">
             < div className="navbar w-3/4">
@@ -42,8 +45,13 @@ export default function Navbar() {
                 </div>
                 <div className="navbar-end">
                     <ul className="menu menu-horizontal px-1">
-                        {user ? <li><buttton onClick={() => logout()}>Logout</buttton></li> : <li><Link to={`/login`}>Login</Link></li>}
-                        <li><Link to={`/register`}>Regster</Link></li>
+                        {user && (
+                            <li>
+                                <Link to={"/dashboard"}>Dashboard</Link>
+                            </li>
+                        )}
+                        {user ? <li><button onClick={handleLogout}>Logout</button></li> : <li><Link to={`/login`}>Login</Link></li>}
+                        {!user && (<li><Link to={`/register`}>Regster</Link></li>)}
                     </ul>
                 </div>
             </div >

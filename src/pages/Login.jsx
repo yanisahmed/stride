@@ -13,7 +13,7 @@ export default function Login() {
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        console.log(email, password, form)
+        console.log(email, password, from)
 
         try {
             await signIn(email, password);

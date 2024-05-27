@@ -1,9 +1,5 @@
-import {
-    GoogleAuthProvider,
-    createUserWithEmailAndPassword,
-    getAuth
-} from "firebase/auth";
-import { createContext, useState } from 'react';
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from "firebase/auth";
+import { createContext, useEffect, useState } from 'react';
 import { app } from '../firebase/firebase.config';
 
 const auth = getAuth(app);
@@ -11,19 +7,36 @@ const auth = getAuth(app);
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
+
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const googleProvider = new GoogleAuthProvider();
-
-    const createUser = (email, password) => {
+    const createUser = async (email, password) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password)
+        return await createUserWithEmailAndPassword(auth, email, password)
+
     }
 
-    const authInfo = { user, loading, createUser };
-    return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-}
+    useEffect(() => {
+        const unscubcribe = onAuthStateChanged(auth, (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+                setLoading(false);
+                console.log(currentUser);
+            } else {
+                setLoading(false);
+            }
+        });
+        return () => {
+            return unscubcribe();
+        };
+    }, []);
 
+    const authInfo = { user, loading, createUser }
+    return (
+        <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+    );
+
+}
 
 export default AuthProvider;

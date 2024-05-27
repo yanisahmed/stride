@@ -1,45 +1,34 @@
 import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
+import Contact from '../pages/Contact';
 import Error from '../pages/Error';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import PrivateRoutes from './PrivateRoutes';
-const router = createBrowserRouter([
+const routes = createBrowserRouter([
     {
-        path: "/",
+        path: '/',
         element: <MainLayout />,
         errorElement: <Error />,
         children: [
             {
-                path: "/",
+                path: '/',
                 element: <Home />
             },
             {
-                path: "/about",
-                element: <h1>About</h1>
+                path: '/contact',
+                element: <Contact />
+            },
+            {
+                path: '/register',
+                element: <Register />
+            },
+            {
+                path: '/login',
+                element: <Login />
             }
-
-
         ]
-    },
-    {
-        path: "/login",
-        element: <Login />
-    },
-    {
-        path: "/register",
-        element: <Register />
-    },
-    {
-        path: "/dashboard",
-        element: (
-            <PrivateRoutes>
-                <h3>Dashboard....</h3>
-            </PrivateRoutes>
-        )
     }
+])
 
-]);
-
-export default router;
+export default routes;

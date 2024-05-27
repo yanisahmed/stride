@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
-
+import React, { useContext, useState } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from '../AuthProvider/AuthProvider';
 export default function Register() {
     const [passMatch, setPassMatch] = useState(true);
-    const { user, createUser } = useAuth();
+    const { createUser, user } = useContext(AuthContext);
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
         const confirm_password = form.confirm_password.value;
-
-        const navigate = useNavigate();
-        const location = useLocation();
 
         const from = location?.state?.from?.pathname || "/";
 
@@ -23,12 +22,20 @@ export default function Register() {
         }
 
         console.log(email, password, confirm_password);
-        if (password == confirm_password) {
-            createUser(email, password);
-            if (user) {
-                navigate(from);
+
+
+        try {
+            if (password === confirm_password) {
+                await createUser(email, password);
+                if (user) {
+                    navigate(from);
+                }
             }
         }
+        catch (error) {
+            console.error('Error Creating user:', error)
+        }
+
     }
     return (
         <form onSubmit={handleSubmit} className="hero min-h-screen bg-base-200">

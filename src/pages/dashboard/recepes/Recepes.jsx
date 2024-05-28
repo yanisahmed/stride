@@ -1,11 +1,13 @@
 import React from 'react';
 
+import Modal from '../../../components/Modal';
 import data from '../../../data/data';
 export default function Recepes() {
     console.log(data);
     return (
         <div>
             <div class="container mx-auto p-6">
+                <Modal />
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-semibold">Recipe List</h1>
                     <a href="#" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Add Recipe</a>

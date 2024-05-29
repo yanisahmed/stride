@@ -1,0 +1,9 @@
+.slider-container {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+.slider-item {
+    flex: none;
+    scroll-snap-align: start;
+}

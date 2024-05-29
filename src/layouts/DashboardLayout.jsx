@@ -1,5 +1,9 @@
+import { useContext } from 'react';
 import { Link, Outlet } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+
 const DashboardLayout = () => {
+    const { user, logout } = useContext(AuthContext);
     return (
         <>
             <div className="flex h-screen">
@@ -24,7 +28,7 @@ const DashboardLayout = () => {
                         </ul>
                     </nav>
                     <div className="p-4">
-                        <button className="w-full py-2 bg-red-500 hover:bg-red-700 text-white rounded">Logout</button>
+                        <button className="w-full py-2 bg-red-500 hover:bg-red-700 text-white rounded" onClick={logout}>Logout</button>
                     </div>
                 </aside>
 
